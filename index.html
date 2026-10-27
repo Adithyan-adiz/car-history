@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoTrace - Car History & Vehicle Information App</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" data-target="home-section">
+                <i class="fa-solid fa-car-tunnel"></i> Auto<span>Trace</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#" class="nav-link active" data-target="home-section"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#" class="nav-link" data-target="search-section"><i class="fa-solid fa-magnifying-glass"></i> Search & Filter</a>
+                <a href="#" class="nav-link" data-target="favorites-section"><i class="fa-solid fa-heart"></i> Favorites <span id="fav-badge" class="badge">0</span></a>
+                <a href="#" class="nav-link" data-target="about-section"><i class="fa-solid fa-circle-info"></i> About</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#" class="nav-link" data-target="home-section"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#" class="nav-link" data-target="search-section"><i class="fa-solid fa-magnifying-glass"></i> Search & Filter</a>
+            <a href="#" class="nav-link" data-target="favorites-section"><i class="fa-solid fa-heart"></i> Favorites</a>
+            <a href="#" class="nav-link" data-target="about-section"><i class="fa-solid fa-circle-info"></i> About</a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="main-content">
+        <!-- Toast Notification Container -->
+        <div id="toast-container"></div>
+
+        <!-- SECTION: HOME -->
+        <section id="home-section" class="app-section active-section">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Simulated Demo Verification System</div>
+                    <h1>Know Every Detail Before You Buy.</h1>
+                    <p>Instant vehicle history reports, ownership trails, accident logs, service history, and AI-powered health scores to make confident automotive decisions.</p>
+                    
+                    <div class="hero-search-box">
+                        <div class="search-input-group">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="hero-search-input" placeholder="Enter Registration (e.g. KL-07-CD-5678), VIN, or Model..." autocomplete="off">
+                        </div>
+                        <button id="hero-search-btn" class="btn btn-primary"><i class="fa-solid fa-file-invoice"></i> Check Vehicle History</button>
+                    </div>
+                    <div class="quick-tags">
+                        <span>Popular Searches:</span>
+                        <button class="tag-chip" data-search="Innova Crysta">Innova Crysta</button>
+                        <button class="tag-chip" data-search="Creta">Hyundai Creta</button>
+                        <button class="tag-chip" data-search="Nexon">Tata Nexon</button>
+                        <button class="tag-chip" data-search="320d">BMW 320d</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-car"></i></div>
+                    <div class="stat-info">
+                        <h3>142,500+</h3>
+                        <p>Vehicles Checked</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-file-shield"></i></div>
+                    <div class="stat-info">
+                        <h3>98,200+</h3>
+                        <p>Reports Generated</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <div class="stat-info">
+                        <h3>350,000+</h3>
+                        <p>Verified Service Records</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-info">
+                        <h3>89.4%</h3>
+                        <p>Clean History Average</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recently Viewed Section -->
+            <div id="recent-viewed-wrapper" class="container section-padding hidden">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Recently Viewed Vehicles</h2>
+                    <button id="clear-recent-btn" class="btn btn-sm btn-outline">Clear History</button>
+                </div>
+                <div id="recent-cards-grid" class="vehicle-grid"></div>
+            </div>
+
+            <!-- Featured Vehicles Section -->
+            <div class="container section-padding">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-star"></i> Popular Demo Vehicles</h2>
+                    <p>Explore sample inspection reports across various segments</p>
+                </div>
+                <div id="featured-vehicles-grid" class="vehicle-grid"></div>
+            </div>
+        </section>
+
+        <!-- SECTION: VEHICLE SEARCH & FILTER -->
+        <section id="search-section" class="app-section">
+            <div class="container section-padding">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-filter"></i> Search & Filter Vehicle Database</h2>
+                    <p>Filter by brand, year, fuel type, transmission, and health score</p>
+                </div>
+
+                <div class="filter-controls-card">
+                    <div class="filter-search-row">
+                        <div class="search-input-group flex-grow">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="main-search-input" placeholder="Search by Registration No., VIN, Brand, or Model...">
+                        </div>
+                        <button id="reset-filters-btn" class="btn btn-outline"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+                    </div>
+
+                    <div class="filter-options-grid">
+                        <div class="filter-group">
+                            <label for="filter-brand">Manufacturer</label>
+                            <select id="filter-brand">
+                                <option value="">All Brands</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-year">Manufacturing Year</label>
+                            <select id="filter-year">
+                                <option value="">All Years</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-fuel">Fuel Type</label>
+                            <select id="filter-fuel">
+                                <option value="">All Fuel Types</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-transmission">Transmission</label>
+                            <select id="filter-transmission">
+                                <option value="">All Transmissions</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-condition">Health Condition</label>
+                            <select id="filter-condition">
+                                <option value="">All Conditions</option>
+                                <option value="Excellent">Excellent (90+)</option>
+                                <option value="Good">Good (75-89)</option>
+                                <option value="Fair">Fair (60-74)</option>
+                                <option value="Needs Inspection">Needs Inspection (&lt;60)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="sort-by">Sort By</label>
+                            <select id="sort-by">
+                                <option value="default">Default</option>
+                                <option value="year-desc">Newest Year</option>
+                                <option value="year-asc">Oldest Year</option>
+                                <option value="mileage-asc">Lowest Mileage</option>
+                                <option value="health-desc">Highest Health Score</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Results Grid -->
+                <div class="results-meta-bar">
+                    <span id="results-count">Showing 0 vehicles</span>
+                </div>
+                <div id="search-results-grid" class="vehicle-grid"></div>
+                
+                <!-- Empty State -->
+                <div id="empty-state" class="empty-state hidden">
+                    <div class="empty-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <h3>No Matching Vehicles Found</h3>
+                    <p>We couldn't find any vehicles matching your search criteria or filters. Try adjusting your query or resetting filters.</p>
+                    <button class="btn btn-primary" id="empty-reset-btn">Reset All Filters</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: VEHICLE DETAIL / REPORT -->
+        <section id="report-section" class="app-section">
+            <div class="container section-padding">
+                <div class="report-top-bar">
+                    <button class="btn btn-outline" id="back-to-search-btn"><i class="fa-solid fa-arrow-left"></i> Back to Search</button>
+                    <div class="report-action-buttons">
+                        <button class="btn btn-outline" id="favorite-toggle-btn"><i class="fa-regular fa-heart"></i> <span id="fav-btn-text">Save to Favorites</span></button>
+                        <button class="btn btn-primary" id="print-report-btn"><i class="fa-solid fa-print"></i> Download / Print Report</button>
+                    </div>
+                </div>
+
+                <!-- Simulation Disclaimer Banner -->
+                <div class="disclaimer-banner">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <div>
+                        <strong>Simulation Disclaimer:</strong> All records, ownership trails, accident logs, and valuations below are <strong>generated fictional demonstration data</strong>. This app is not connected to any government registry, insurance database, or commercial vehicle verification service.
+                    </div>
+                </div>
+
+                <!-- Report Main Wrapper -->
+                <div id="report-content-wrapper" class="report-wrapper">
+                    <!-- Dynamic report content gets injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: FAVORITES -->
+        <section id="favorites-section" class="app-section">
+            <div class="container section-padding">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-heart"></i> Saved Favorite Vehicles</h2>
+                    <p>Quick access to your bookmarked vehicle inspection reports</p>
+                </div>
+                <div id="favorites-grid" class="vehicle-grid"></div>
+                <div id="favorites-empty" class="empty-state hidden">
+                    <div class="empty-icon"><i class="fa-solid fa-heart-circle-xmark"></i></div>
+                    <h3>No Favorite Vehicles Saved</h3>
+                    <p>Click the heart icon on any vehicle card or report to save it to your favorites list for quick comparison.</p>
+                    <button class="btn btn-primary" data-target="search-section" id="go-to-search-from-fav">Browse Vehicles</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ABOUT -->
+        <section id="about-section" class="app-section">
+            <div class="container section-padding">
+                <div class="about-hero">
+                    <div class="about-badge"><i class="fa-solid fa-car-tunnel"></i> About AutoTrace</div>
+                    <h2>Transparent Vehicle History at Your Fingertips</h2>
+                    <p class="about-lead">AutoTrace is a modern, responsive frontend application designed to showcase comprehensive vehicle inspection reports, ownership history, and health diagnostics in a clean, professional dashboard.</p>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="about-icon"><i class="fa-solid fa-shield-cat"></i></div>
+                        <h3>Comprehensive History</h3>
+                        <p>Analyze complete ownership trails, multi-state registrations, insurance standings, and official document validity dates.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3>AI Health Scoring</h3>
+                        <p>Inspect multi-point health ratings covering engine performance, transmission smoothness, body panels, and mileage consistency checks.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon"><i class="fa-solid fa-wrench"></i></div>
+                        <h3>Service & Maintenance Logs</h3>
+                        <p>Review authorized service center records, odometer mileages at each interval, part replacements, and repair costs.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h3>Accident & Damage Records</h3>
+                        <p>Examine severity classifications, insurance claim histories, structural repair records, and legal/theft status checks.</p>
+                    </div>
+                </div>
+
+                <div class="tech-stack-box">
+                    <h3>Frontend Architecture & Technical Highlights</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> <strong>Pure Vanilla Stack:</strong> Built using HTML5, CSS3, and ES6+ JavaScript without external framework bloat.</li>
+                        <li><i class="fa-solid fa-check"></i> <strong>Persistent State:</strong> Utilizes browser <code>localStorage</code> for saving favorite vehicles and recently viewed items across sessions.</li>
+                        <li><i class="fa-solid fa-check"></i> <strong>Print-Friendly Design:</strong> Generates clean, formatted PDF or physical printouts directly from browser layout engines.</li>
+                        <li><i class="fa-solid fa-check"></i> <strong>Responsive UI:</strong> Optimized for mobile phones, tablets, and widescreen desktop displays with dark theme support.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <a href="#" class="logo" data-target="home-section"><i class="fa-solid fa-car-tunnel"></i> Auto<span>Trace</span></a>
+                <p>The trusted frontend demonstration platform for vehicle inspection history, ownership verification, and health analytics.</p>
+                <p class="copyright">&copy; 2026 AutoTrace Inc. All rights reserved.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" data-target="home-section">Home</a></li>
+                    <li><a href="#" data-target="search-section">Vehicle Search</a></li>
+                    <li><a href="#" data-target="favorites-section">Favorites</a></li>
+                    <li><a href="#" data-target="about-section">About App</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Simulated Disclaimer</h4>
+                <p class="footer-disclaimer">All data displayed in this application is entirely fictional. Vehicle registrations, VINs, accident logs, and valuations are generated for demonstration purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
